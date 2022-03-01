@@ -30,11 +30,14 @@ public Address(String adrString) {
         adrString = adrString.substring(adrString.indexOf(" ") + 1);
         this.zipcode = Integer.parseInt(adrString.substring(adrString.lastIndexOf(" ") + 1));
         adrString = adrString.substring(0,adrString.lastIndexOf(" "));
-        this.city = adrString.substring(adrString.lastIndexOf(" ") + 1);
-        adrString = adrString.substring(0,adrString.lastIndexOf(" "));
+        this.state = adrString.substring(adrString.lastIndexOf(" ") + 1);
+        adrString = adrString.substring(0,adrString.lastIndexOf(","));
+
+        this.city = adrString.substring(adrString.lastIndexOf(", ") + 2);
+        adrString = adrString.substring(0,adrString.lastIndexOf(",") + 1);
         if (adrString.contains("Apt")) {
             this.aptNum = adrString.substring(adrString.indexOf("Apt ") + 4,adrString.length()-1);
-            adrString = adrString.substring(adrString.indexOf(" Apt "));
+            adrString = adrString.substring(0, adrString.indexOf(" Apt "));
             this.streetName = adrString;
         }
         else {
@@ -75,10 +78,10 @@ public Address(String adrString) {
 
     public String toString() {
         String str = "";
-        if (aptNum == null)
-            str = streetNum + " " + streetName + ", " + city + " " + zipcode;
+        if (aptNum == null || aptNum.equals(""))
+            str = streetNum + " " + streetName + ", " + city + ", " + state + " " + zipcode;
         else
-            str = streetNum + " " + streetName + " Apt " + aptNum + ", " + city + " " + zipcode;
+            str = streetNum + " " + streetName + " Apt " + aptNum + ", " + city + ", " + state + " " + zipcode;
 
         return str;
     }
